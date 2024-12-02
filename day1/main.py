@@ -1,26 +1,46 @@
-leftList = []
-rightList = []
+def main():
+    data = "aoc_data.txt"
+    leftList, rightList = processData(data)
+    print(part_one(leftList, rightList))
+    print(part_two(leftList, rightList))
 
-with open('aoc_data.txt') as f:
-    data = f.read()
+def processData(file):
+    leftList = []
+    rightList = []
 
-# Split the data
-for line in data.strip().split("\n"):
-    left, right = map(int, line.split())
+    with open(file) as f:
+        data = f.read()
 
-    leftList.append(left)
-    rightList.append(right)
+    # Split the data
+    for line in data.strip().split("\n"):
+        left, right = map(int, line.split())
 
-# sort ascending
-leftList.sort()
-rightList.sort()
+        leftList.append(left)
+        rightList.append(right)
 
-# compare and measure distance
-# We know both lists are the same size so we can just work with the length of one list
-differences = []
+    # sort ascending
+    leftList.sort()
+    rightList.sort()
 
-for leftVal, rightVal in zip(leftList, rightList):
-    difference = abs(leftVal - rightVal)
-    differences.append(difference)
+    return leftList, rightList
 
-print(sum(differences))
+def part_one(leftList, rightList):
+    # compare and measure distance
+    # We know both lists are the same size so we can just work with the length of one list
+    differences = []
+
+    for leftVal, rightVal in zip(leftList, rightList):
+        difference = abs(leftVal - rightVal)
+        differences.append(difference)
+
+    return sum(differences)
+
+def part_two(leftList, rightList):
+    similarities = 0
+    for number in leftList:
+        occurences = rightList.count(number)
+        similarities = similarities + (number * occurences)
+        
+    return similarities
+if __name__ == "__main__":
+    main()
